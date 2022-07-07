@@ -1,0 +1,86 @@
+create TABLE sinh_vien(
+	ma int Identity,
+	ten varchar(50),
+	gioi_tinh bit,
+	ngay_sinh date,
+	PRIMARY key (ma))
+    
+insert into sinh_vien(ten, gioi_tinh, ngay_sinh)
+VALUES
+('Long', 1, '1997-01-01'),
+('Tuan', 0, '2000-01-01')
+
+select 
+ma,
+ten,
+(case when  gioi_tinh = 1 then 'Nam' else N'Nữ' end) as ten_gioi_tinh,
+ngay_sinh
+from sinh_vien
+
+
+CREATE function f_ten_gt(@gioi_tinh bit)
+returns nvarchar(50)
+AS
+BEGIN
+	return (case when  @gioi_tinh = 1 then 'Nam' else N'Nữ' end)
+end
+
+
+select 
+ma,
+ten,
+dbo.f_ten_gt(gioi_tinh) as ten_gioi_tinh,
+ngay_sinh
+from sinh_vien
+
+drop function cong
+CREATE function cong(@a int, @b int)
+returns INT
+AS
+BEGIN
+	return (@a + @b)
+end
+
+SELECT dbo.cong(11,2)
+
+select 
+ma,
+ten,
+dbo.f_ten_gt(gioi_tinh) as ten_gioi_tinh,
+dbo.f_lay_tuoi(ngay_sinh) as tuoi,
+ngay_sinh
+from sinh_vien
+
+CREATE function f_lay_tuoi(@ngay_sinh date)
+returns INT
+AS
+BEGIN
+	return datediff(year, @ngay_sinh, getdate())
+end
+
+CREATE procedure xem_sinh_vien @ma INT
+AS
+BEGIN	
+	select * from sinh_vien WHERE ma = @ma
+end
+
+xem_sinh_vien @ma = 1
+
+CREATE function func_xem_sinh_vien(@ma int)
+returns TABLE
+return (select * from sinh_vien WHERE ma = @ma)
+
+SELECT * from func_xem_sinh_vien(1)
+
+------------------DDL: CREATE, ALTER, DROP
+------------------DML: INSERT, UPDATE, DELETE
+------------------DQL: SELECT(function dùng được mỗi DQL)
+
+select * from sinh_vien
+where dbo.f_lay_tuoi(ngay_sinh) - 23 > 0
+
+
+
+select * from func_xem_sinh_vien(2) as t1
+join sinh_vien on sinh_vien.ma = t1.ma
+

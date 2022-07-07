@@ -1,0 +1,8 @@
+input dữ liệu cho tất cả các bảng logic
+viết thủ tục thêm só tài khoản
+tạo view đưa ra thông tin  chi tiết các loại sổ tiết kiệm theo từng năm rút
+viết thủ tục rút tiền theo mức lãi xuất 
+viết trigger tính toán số tiền rút khi có thêm số tk mới 
+
+tiền rút = tiền gửi + tiền gửi * lãi * só ngày / 360
+tiền lãi = tiền gửi * lãi * số ngày / 360
